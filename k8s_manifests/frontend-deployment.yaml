@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: vinodkumar97/frontend:17513635985
+        image: vinodkumar97/frontend:17513718512
         imagePullPolicy: Always
         env:
           - name: REACT_APP_BACKEND_URL

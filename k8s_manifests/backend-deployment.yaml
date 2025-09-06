@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: vinodkumar97/backend:17513635985
+        image: vinodkumar97/backend:17513718512
         imagePullPolicy: Always
         env:
           - name: MONGO_CONN_STR
