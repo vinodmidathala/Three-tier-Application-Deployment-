@@ -37,9 +37,17 @@ jobs:
             - name: Docker push
               uses: docker/build-push-action@v3
               with:
-                context: .
+                context: ./backend
+                file: ./backend/Dockerfile
                 push: true
-                tags: ${{ secrets.DOCKER_USERNAME }}/myapp:${{github.run_id}}
+                tags: ${{ secrets.DOCKER_USERNAME }}/backend:${{github.run_id}}
+            - name: Docker push
+              uses: docker/build-push-action@v3
+              with:
+                context: ./frontend
+                file: ./frontend/Dockerfile
+                push: true
+                tags: ${{ secrets.DOCKER_USERNAME }}/frontend:${{github.run_id}}
     update-deployment:
         needs: docker
         runs-on: ubuntu-latest
@@ -51,7 +59,8 @@ jobs:
 
             - name: update deployment file
               run: |
-                sed -i 's|image: .*|image: '"${{ secrets.DOCKER_USERNAME }}"'/myapp:'"${{github.run_id }}"'|g' k8s/*.yaml
+                sed -i 's|image: .*|image: '"${{ secrets.DOCKER_USERNAME }}"'/backend:'"${{github.run_id }}"'|g' k8s_manifests/backend-deployment.yaml
+                sed -i 's|image: .*|image: '"${{ secrets.DOCKER_USERNAME }}"'/frontend:'"${{github.run_id }}"'|g' k8s_manifests/frontend-deployment.yaml
             - name: git commit
               run: |
                 git config --global user.name 'vinodmidathala'
