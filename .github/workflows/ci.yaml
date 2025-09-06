@@ -42,8 +42,7 @@ jobs:
               run: npm test
               working-directory: ./backend
     docker:
-        needs: build_frontend 
-        needs: build_backend
+        needs: build_frontend build_backend
         runs-on: ubuntu-latest
         steps:
             - name: chcekout code
